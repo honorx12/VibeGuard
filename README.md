@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/github/license/honorx12/VibeGuard)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/honorx12/VibeGuard?style=flat)](https://github.com/honorx12/VibeGuard/stargazers)
 
-24 `SKILL.md` skills that guide Claude Code, Cursor, Codex, Copilot, Gemini CLI and Windsurf to find, fix and *verify* problems in AI-generated and vibe-coded web apps: secrets, auth, injection, SSRF, payments, performance, SEO, accessibility and more.
+24 skills (`SKILL.md` files) that guide Claude Code, Cursor, Codex, Copilot, Gemini CLI and Windsurf to find, fix and *verify* problems in AI-generated and vibe-coded web apps: secrets, auth, injection, SSRF, payments, performance, SEO, accessibility and more.
 
 **Quick start**
 
