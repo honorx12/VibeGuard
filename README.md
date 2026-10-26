@@ -1,6 +1,23 @@
-# AI Web Quality Skills
+# VibeGuard
 
-A library of **24 skills** (`SKILL.md` files) that help AI coding agents detect, explain, prevent, remediate and *verify* common problems in AI-generated and vibe-coded web apps, APIs, cloud configuration and AI-powered systems. It follows the open [Agent Skills format](https://agentskills.io/specification) and ships with validation, a conservative local scanner, a metadata-only discovery tool and tests.
+**Security, quality and launch-readiness skills for AI coding agents.**
+
+[![License: MIT](https://img.shields.io/github/license/honorx12/VibeGuard)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/honorx12/VibeGuard?style=flat)](https://github.com/honorx12/VibeGuard/stargazers)
+
+24 `SKILL.md` skills that guide Claude Code, Cursor, Codex, Copilot, Gemini CLI and Windsurf to find, fix and *verify* problems in AI-generated and vibe-coded web apps: secrets, auth, injection, SSRF, payments, performance, SEO, accessibility and more.
+
+**Quick start**
+
+```bash
+git clone https://github.com/honorx12/VibeGuard.git
+# copy only the skill folders you need into your agent's skills folder
+# Claude Code (project): .claude/skills/<name>/   (verify path, see agents/README.md)
+```
+
+Then ask your agent: *"Use security-audit on this project."*
+
+---
 
 > **Honest scope.** These skills guide an agent's workflow. They do not make a system secure, compliant or accessible. A passing checklist is not proof. Findings must be backed by evidence and verification, and some decisions need a human.
 
