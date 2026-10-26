@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.invalid/ai-web-quality-skills/registry-schema.json",
-  "title": "AI Web Quality Skills registry",
+  "$id": "https://example.invalid/VibeGuard/registry-schema.json",
+  "title": "VibeGuard registry",
   "type": "object",
   "required": ["schema_version", "skills"],
   "additionalProperties": false,
