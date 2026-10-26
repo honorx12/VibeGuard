@@ -1,0 +1,551 @@
+{
+  "schema_version": 1,
+  "generated_by": "scripts/build_registry.py",
+  "skills": [
+    {
+      "id": "local/accessibility-responsive",
+      "name": "accessibility-responsive",
+      "description": "Implement and verify accessibility and responsive behaviour: focus and hover states, skip links, mobile navigation, sticky headers, image alt text, colour contrast and mobile layouts. Use when building or reviewing UI components and pages.",
+      "category": "frontend",
+      "source_url": "skills/frontend/accessibility-responsive/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "forms-validation",
+        "performance",
+        "website-interactions"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/ai-agent-security",
+      "name": "ai-agent-security",
+      "description": "Secure AI-powered features and coding agents: prompt injection, unpermissioned AI access, invalid AI output and excessive AI permissions. Use when an LLM reads untrusted content, calls tools, runs code, queries data or generates HTML/SQL/URLs/commands.",
+      "category": "security",
+      "source_url": "skills/security/ai-agent-security/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "api-access-control",
+        "injection-prevention",
+        "skill-supply-chain-review",
+        "web-input-security"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/api-access-control",
+      "name": "api-access-control",
+      "description": "Detect and fix object-level and tenant-level access problems in APIs: cross-user access, IDOR/BOLA, mass assignment, unsafe API inputs, poor tenant isolation and unsecured endpoints. Use when reviewing REST/GraphQL/RPC endpoints or multi-tenant data access.",
+      "category": "security",
+      "source_url": "skills/security/api-access-control/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "authentication-authorization",
+        "cloud-config",
+        "injection-prevention"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/authentication-authorization",
+      "name": "authentication-authorization",
+      "description": "Review and fix authentication and authorization: weak login, missing authz checks, admin routes, password reset, default credentials, MFA, account enumeration and client-only security. Use when building or auditing login, roles, admin areas or account recovery.",
+      "category": "security",
+      "source_url": "skills/security/authentication-authorization/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "api-access-control",
+        "rate-limits-abuse",
+        "secrets-detection",
+        "session-jwt-oauth"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/cloud-config",
+      "name": "cloud-config",
+      "description": "Audit deployment and cloud configuration: open DB permissions, cloud misconfiguration, admin/debug exposure, verbose errors, exposed environments, logs, source maps, dashboards and DB roles. Use when reviewing IaC, hosting settings, Docker/Kubernetes config or release builds.",
+      "category": "security",
+      "source_url": "skills/security/cloud-config/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "crypto-data-protection",
+        "logging-monitoring-backups",
+        "secrets-detection",
+        "web-input-security"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/code-review-testing",
+      "name": "code-review-testing",
+      "description": "Review code changes and test them: correctness, security-sensitive paths, AI-generated code scrutiny, regression tests and verification discipline. Use when reviewing a diff or PR or when remediation needs tests.",
+      "category": "engineering",
+      "source_url": "skills/engineering/code-review-testing/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "security-audit",
+        "skill-supply-chain-review"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/consent-and-privacy-ui",
+      "name": "consent-and-privacy-ui",
+      "description": "Handle privacy and consent interfaces: cookie banner and preferences, UTM tracking, analytics configuration, privacy policy and terms drafting based on actual behaviour. Use when a site uses cookies, trackers, analytics or collects personal data.",
+      "category": "frontend",
+      "source_url": "skills/frontend/consent-and-privacy-ui/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "crypto-data-protection",
+        "seo-metadata",
+        "website-interactions"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/crypto-data-protection",
+      "name": "crypto-data-protection",
+      "description": "Protect sensitive data: unencrypted data in transit or at rest, password storage, key handling and sensitive information leakage through responses, URLs, caches and analytics. Use when handling PII, credentials, payments or health/financial data.",
+      "category": "security",
+      "source_url": "skills/security/crypto-data-protection/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "api-access-control",
+        "cloud-config",
+        "logging-monitoring-backups"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/dependency-supply-chain",
+      "name": "dependency-supply-chain",
+      "description": "Assess dependency and build supply-chain risk: vulnerable and malicious packages, insecure CI/CD, untrusted build actions and unpinned dependencies. Use when adding packages, editing workflows, building images or auditing lockfiles.",
+      "category": "security",
+      "source_url": "skills/security/dependency-supply-chain/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "secrets-detection",
+        "security-audit",
+        "skill-supply-chain-review"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/forms-validation",
+      "name": "forms-validation",
+      "description": "Build and review forms: password visibility toggle, success and error states, confirmation dialogs, validation, and spam protection. Use when creating or auditing any user input form.",
+      "category": "frontend",
+      "source_url": "skills/frontend/forms-validation/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "accessibility-responsive",
+        "authentication-authorization",
+        "injection-prevention",
+        "rate-limits-abuse"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/injection-prevention",
+      "name": "injection-prevention",
+      "description": "Prevent injection and unsafe input handling: missing validation, SQL and NoSQL injection, command injection, insecure deserialization and path traversal. Use when code builds queries, shell commands, file paths or deserializes data.",
+      "category": "security",
+      "source_url": "skills/security/injection-prevention/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "api-access-control",
+        "web-input-security"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/logging-monitoring-backups",
+      "name": "logging-monitoring-backups",
+      "description": "Establish audit logging, security monitoring and tested backups: missing audit logs, missing alerts, untested backups. Use when assessing operational readiness, incident detection or recovery capability.",
+      "category": "security",
+      "source_url": "skills/security/logging-monitoring-backups/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "cloud-config",
+        "crypto-data-protection",
+        "secrets-detection"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/payment-business-logic",
+      "name": "payment-business-logic",
+      "description": "Protect payment and business-logic integrity: frontend-only payment verification, workflow abuse and race conditions. Use when handling checkout, subscriptions, credits, coupons, inventory, refunds or any multi-step stateful workflow.",
+      "category": "security",
+      "source_url": "skills/security/payment-business-logic/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "api-access-control",
+        "rate-limits-abuse",
+        "ssrf-cors-webhooks"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/performance",
+      "name": "performance",
+      "description": "Measure and improve page-load performance: Core Web Vitals, bundle size, image compression, caching and font loading. Use when pages are slow, before launch, or when adding heavy assets or scripts.",
+      "category": "production",
+      "source_url": "skills/production/performance/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "accessibility-responsive",
+        "seo-metadata",
+        "website-interactions"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/production-readiness",
+      "name": "production-readiness",
+      "description": "Run a pre-launch production-readiness review: HTTPS, custom 404, broken links, primary call to action, deployment checks and rollback planning, mapping every launch checklist item to a responsible skill. Use before releasing or handing over a website or web app.",
+      "category": "production",
+      "source_url": "skills/production/production-readiness/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "accessibility-responsive",
+        "consent-and-privacy-ui",
+        "logging-monitoring-backups",
+        "performance",
+        "security-audit",
+        "seo-metadata"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/rate-limits-abuse",
+      "name": "rate-limits-abuse",
+      "description": "Add and verify rate limiting and abuse controls on login, signup, reset, OTP, search, costly and AI endpoints. Use when endpoints can be brute-forced, scraped, spammed or used to run up cost.",
+      "category": "security",
+      "source_url": "skills/security/rate-limits-abuse/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "authentication-authorization",
+        "logging-monitoring-backups",
+        "payment-business-logic"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/secrets-detection",
+      "name": "secrets-detection",
+      "description": "Find and remediate exposed credentials: hardcoded secrets, public .env files, secrets in Git history, frontend bundles and logs, and exposed database credentials. Use when reviewing config, preparing a release, or after a suspected leak.",
+      "category": "security",
+      "source_url": "skills/security/secrets-detection/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "cloud-config",
+        "dependency-supply-chain",
+        "logging-monitoring-backups"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/security-audit",
+      "name": "security-audit",
+      "description": "Orchestrate an evidence-based security audit of a web app, API or AI-powered project: map trust boundaries, select specialist skills, rank findings, plan fixes, verify and report. Use when asked to audit, harden or review security of a codebase, or before launch. Also covers unreviewed code and fail-open checks.",
+      "category": "security",
+      "source_url": "skills/security/security-audit/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "ai-agent-security",
+        "api-access-control",
+        "authentication-authorization",
+        "cloud-config",
+        "code-review-testing",
+        "crypto-data-protection",
+        "dependency-supply-chain",
+        "injection-prevention",
+        "logging-monitoring-backups",
+        "payment-business-logic",
+        "rate-limits-abuse",
+        "secrets-detection",
+        "session-jwt-oauth",
+        "ssrf-cors-webhooks",
+        "web-input-security"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/seo-metadata",
+      "name": "seo-metadata",
+      "description": "Implement and verify SEO and sharing metadata: titles, descriptions, social preview image, favicon, sitemap, robots.txt, canonical URLs and accurate last-updated dates. Use when launching or restructuring a public site.",
+      "category": "production",
+      "source_url": "skills/production/seo-metadata/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "accessibility-responsive",
+        "consent-and-privacy-ui",
+        "performance"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/session-jwt-oauth",
+      "name": "session-jwt-oauth",
+      "description": "Review sessions, JWTs and OAuth/OIDC: weak session management, weak or exposed JWT secrets and validation, and misconfigured OAuth. Use when implementing or auditing login sessions, token issuance or social login.",
+      "category": "security",
+      "source_url": "skills/security/session-jwt-oauth/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "authentication-authorization",
+        "secrets-detection",
+        "web-input-security"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/skill-supply-chain-review",
+      "name": "skill-supply-chain-review",
+      "description": "Review third-party agent skills, rules and scripts before adoption: provenance, licence, hidden instructions, exfiltration, downloads and excessive permissions. Use before installing or copying any external SKILL.md, plugin or agent rule.",
+      "category": "engineering",
+      "source_url": "skills/engineering/skill-supply-chain-review/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "ai-agent-security",
+        "dependency-supply-chain"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/ssrf-cors-webhooks",
+      "name": "ssrf-cors-webhooks",
+      "description": "Secure outbound requests, cross-origin policy and webhooks: SSRF, permissive CORS, unsigned webhooks, webhook replay and missing timeouts. Use when code fetches user-supplied URLs, configures CORS, or receives provider webhooks.",
+      "category": "security",
+      "source_url": "skills/security/ssrf-cors-webhooks/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "cloud-config",
+        "payment-business-logic",
+        "rate-limits-abuse"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/web-input-security",
+      "name": "web-input-security",
+      "description": "Secure the browser-facing surface: XSS, CSRF, file uploads, security headers, cookie flags, sensitive browser storage and open redirects. Use when building or auditing pages, forms, uploads, cookies or redirect logic.",
+      "category": "security",
+      "source_url": "skills/security/web-input-security/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "cloud-config",
+        "injection-prevention",
+        "session-jwt-oauth"
+      ],
+      "redistribution": "own-content"
+    },
+    {
+      "id": "local/website-interactions",
+      "name": "website-interactions",
+      "description": "Implement optional site interactions: dark mode, site search, back-to-top, loading and skeleton states, scroll progress, copy-to-clipboard, print stylesheet, expandable FAQ and floating contact action. Use only when the feature fits the product's actual needs.",
+      "category": "frontend",
+      "source_url": "skills/frontend/website-interactions/SKILL.md",
+      "repository_url": null,
+      "revision": "0.1.0",
+      "license": "MIT",
+      "compatibility": [
+        "agentskills.io-spec"
+      ],
+      "last_reviewed": "2026-10-26",
+      "review_status": "first-party",
+      "risk_notes": "First-party content; still requires human review before use. Contains instructions only, no executable code.",
+      "related_skills": [
+        "accessibility-responsive",
+        "consent-and-privacy-ui",
+        "performance",
+        "seo-metadata"
+      ],
+      "redistribution": "own-content"
+    }
+  ]
+}

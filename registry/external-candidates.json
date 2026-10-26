@@ -1,0 +1,523 @@
+{
+  "schema_version": 1,
+  "generated_by": "scripts/discover_skills.py",
+  "retrieved_at": "2026-10-26",
+  "skills": [
+    {
+      "id": "github/amossse/nextstep",
+      "name": "nextstep",
+      "description": "One next action. An original offline action-map Agent Skill with private resumable progress.",
+      "category": "external-unclassified",
+      "source_url": "https://github.com/Amossse/nextstep",
+      "repository_url": "https://github.com/Amossse/nextstep",
+      "revision": "unresolved",
+      "license": "MIT",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "pending-human-review",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "Amossse",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "permitted-by-license",
+      "flags": [
+        "inspection-failed"
+      ]
+    },
+    {
+      "id": "github/blizzardblast/frey-skills",
+      "name": "frey-skills",
+      "description": "A collection of practical, production-ready AI agent skills for the skills.sh ecosystem.",
+      "category": "production",
+      "source_url": "https://github.com/BlizzardBlast/frey-skills",
+      "repository_url": "https://github.com/BlizzardBlast/frey-skills",
+      "revision": "unresolved",
+      "license": "MIT",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "pending-human-review",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "BlizzardBlast",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "permitted-by-license",
+      "flags": [
+        "inspection-failed"
+      ]
+    },
+    {
+      "id": "github/burtson-labs/ui",
+      "name": "ui",
+      "description": "Burtson UI: accessible React components on Radix and Tailwind, with Burtson Icons built in. Install the package or copy the source.",
+      "category": "frontend",
+      "source_url": "https://github.com/Burtson-Labs/ui",
+      "repository_url": "https://github.com/Burtson-Labs/ui",
+      "revision": "27e251532fc19dead6ee412d87371bcf996820a3",
+      "license": "MIT",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "pending-human-review",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "Burtson-Labs",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "permitted-by-license",
+      "flags": [
+        "inspection-failed"
+      ]
+    },
+    {
+      "id": "github/cyvid7-darus10/repo-explainer",
+      "name": "repo-explainer",
+      "description": "Turn any codebase into a guided, interactive tour: architecture map, end-to-end flows with file:line, and what changed and why. An agent skill with a zero-dependency CLI.",
+      "category": "external-unclassified",
+      "source_url": "https://github.com/Cyvid7-Darus10/repo-explainer",
+      "repository_url": "https://github.com/Cyvid7-Darus10/repo-explainer",
+      "revision": "unresolved",
+      "license": "Apache-2.0",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "pending-human-review",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "Cyvid7-Darus10",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "permitted-by-license",
+      "flags": [
+        "inspection-failed"
+      ]
+    },
+    {
+      "id": "github/dertin/vulnbell",
+      "name": "vulnbell",
+      "description": "Security monitoring and clear reports for your software, using your local agent.",
+      "category": "security",
+      "source_url": "https://github.com/dertin/vulnbell",
+      "repository_url": "https://github.com/dertin/vulnbell",
+      "revision": "unresolved",
+      "license": "MIT",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "pending-human-review",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "dertin",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "permitted-by-license",
+      "flags": [
+        "inspection-failed"
+      ]
+    },
+    {
+      "id": "github/dicklesworthstone/meta_skill",
+      "name": "meta_skill",
+      "description": "Local-first skill management platform for AI coding agents: dual SQLite+Git persistence, semantic search, bandit-optimized suggestions, and MCP integration",
+      "category": "external-unclassified",
+      "source_url": "https://github.com/Dicklesworthstone/meta_skill",
+      "repository_url": "https://github.com/Dicklesworthstone/meta_skill",
+      "revision": "unresolved",
+      "license": "UNKNOWN",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "link-only",
+      "risk_notes": "Heuristic indicators found: credential-file-access, pipe-to-shell, privilege-escalation. Human review required; do not install.",
+      "related_skills": [],
+      "author": "Dicklesworthstone",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "link-only",
+      "flags": [
+        "bundled-scripts-present: review manually, never execute during review",
+        "heuristic:credential-file-access",
+        "heuristic:pipe-to-shell",
+        "heuristic:privilege-escalation",
+        "inspection-failed",
+        "licence-unclear-or-restrictive: catalogue and link only",
+        "manual-review-required",
+        "skill-files-inspected:5"
+      ]
+    },
+    {
+      "id": "github/dpalfery/kyber-weave",
+      "name": "kyber-weave",
+      "description": "Agentic coding framework and meta-harness for planning, building, reviewing, and tuning software across coding agents. Portable agent squads, skills, governed project knowledge, quality gates, and local token observability. Human judgment. Agent speed.",
+      "category": "engineering",
+      "source_url": "https://github.com/dpalfery/kyber-weave",
+      "repository_url": "https://github.com/dpalfery/kyber-weave",
+      "revision": "unresolved",
+      "license": "MIT",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "pending-human-review",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "dpalfery",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "permitted-by-license",
+      "flags": [
+        "inspection-failed"
+      ]
+    },
+    {
+      "id": "github/ejryan89/coding-agent-skills",
+      "name": "coding-agent-skills",
+      "description": "Portable agent skills with a guarded deployer for Claude Code, Codex, and GitHub Copilot",
+      "category": "production",
+      "source_url": "https://github.com/EJRyan89/coding-agent-skills",
+      "repository_url": "https://github.com/EJRyan89/coding-agent-skills",
+      "revision": "875df964a0c285a74e4bee4e9d08c00c73248b83",
+      "license": "MIT",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "pending-human-review",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "EJRyan89",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "permitted-by-license",
+      "flags": [
+        "inspection-failed"
+      ]
+    },
+    {
+      "id": "github/enamtiga/motion-craft",
+      "name": "motion-craft",
+      "description": "Agent Skill: After Effects-grade motion graphics video production, 8 phases, evidenced 5-gate QA, music and SFX synthesized from code, cues.json as the single source of timing",
+      "category": "production",
+      "source_url": "https://github.com/EnamTiga/motion-craft",
+      "repository_url": "https://github.com/EnamTiga/motion-craft",
+      "revision": "unresolved",
+      "license": "MIT",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "pending-human-review",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "EnamTiga",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "permitted-by-license",
+      "flags": [
+        "inspection-failed"
+      ]
+    },
+    {
+      "id": "github/faustojdb/researchmatch",
+      "name": "ResearchMatch",
+      "description": "",
+      "category": "external-unclassified",
+      "source_url": "https://github.com/faustojdb/ResearchMatch",
+      "repository_url": "https://github.com/faustojdb/ResearchMatch",
+      "revision": "unresolved",
+      "license": "UNKNOWN",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "link-only",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "faustojdb",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "link-only",
+      "flags": [
+        "inspection-failed",
+        "licence-unclear-or-restrictive: catalogue and link only"
+      ]
+    },
+    {
+      "id": "github/juli-amezquita/skill-security-reviewer",
+      "name": "skill-security-reviewer",
+      "description": "Security review for third-party Claude skills and plugins before you install them. Deterministic preflight + guided semantic audit: prompt injection, agent-tool abuse, load-time execution, hidden Unicode, exfiltration. Zero dependencies.",
+      "category": "security",
+      "source_url": "https://github.com/juli-amezquita/skill-security-reviewer",
+      "repository_url": "https://github.com/juli-amezquita/skill-security-reviewer",
+      "revision": "unresolved",
+      "license": "MIT",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "pending-human-review",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "juli-amezquita",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "permitted-by-license",
+      "flags": [
+        "inspection-failed"
+      ]
+    },
+    {
+      "id": "github/nerymurillohnd/the-claude-factory",
+      "name": "the-claude-factory",
+      "description": "Production-grade Claude Code & Cowork plugins: skills, agents, hooks, MCP and LSP servers that automate everyday workflows.",
+      "category": "production",
+      "source_url": "https://github.com/nerymurillohnd/the-claude-factory",
+      "repository_url": "https://github.com/nerymurillohnd/the-claude-factory",
+      "revision": "unresolved",
+      "license": "MIT",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "pending-human-review",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "nerymurillohnd",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "permitted-by-license",
+      "flags": [
+        "inspection-failed"
+      ]
+    },
+    {
+      "id": "github/rjmurillo/ai-agents",
+      "name": "ai-agents",
+      "description": "Open source multi agent toolkit for Claude Code and GitHub Copilot CLI: 30 agents, plan to ship workflows, review and security gates, plugin marketplace.",
+      "category": "security",
+      "source_url": "https://github.com/rjmurillo/ai-agents",
+      "repository_url": "https://github.com/rjmurillo/ai-agents",
+      "revision": "unresolved",
+      "license": "MIT",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "pending-human-review",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "rjmurillo",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "permitted-by-license",
+      "flags": [
+        "inspection-failed"
+      ]
+    },
+    {
+      "id": "github/samuelfmedeiros/ai-test-loop",
+      "name": "ai-test-loop",
+      "description": "Never ship unverified work: an independent critic scores the artifact 0-100 with real checks, loops to the threshold, and blocks delivery on a security finding. Stdlib-only runner.",
+      "category": "security",
+      "source_url": "https://github.com/Samuelfmedeiros/ai-test-loop",
+      "repository_url": "https://github.com/Samuelfmedeiros/ai-test-loop",
+      "revision": "unresolved",
+      "license": "MIT",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "pending-human-review",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "Samuelfmedeiros",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "permitted-by-license",
+      "flags": [
+        "inspection-failed"
+      ]
+    },
+    {
+      "id": "github/seotarek/orthotect",
+      "name": "orthotect",
+      "description": "Deterministic Interface Engineering & Runtime Gate Architecture for AI Coding Agents (Claude Code, Cursor, Codex, Antigravity). WCAG 2.2 AAA, DTCG Tokens, CSS Logical BiDi, FSM.",
+      "category": "frontend",
+      "source_url": "https://github.com/seotarek/orthotect",
+      "repository_url": "https://github.com/seotarek/orthotect",
+      "revision": "unresolved",
+      "license": "MIT",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "pending-human-review",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "seotarek",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "permitted-by-license",
+      "flags": [
+        "inspection-failed"
+      ]
+    },
+    {
+      "id": "github/shivamthe-coder/roblox-luau-atelier",
+      "name": "roblox-luau-atelier",
+      "description": "2026 Roblox Luau AI Agent Skill Suite for Production-Grade Scripts and Official Docs Guidance",
+      "category": "production",
+      "source_url": "https://github.com/shivamthe-coder/roblox-luau-atelier",
+      "repository_url": "https://github.com/shivamthe-coder/roblox-luau-atelier",
+      "revision": "unresolved",
+      "license": "UNKNOWN",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "link-only",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "shivamthe-coder",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "link-only",
+      "flags": [
+        "inspection-failed",
+        "licence-unclear-or-restrictive: catalogue and link only"
+      ]
+    },
+    {
+      "id": "github/smith-horn/skillsmith",
+      "name": "skillsmith",
+      "description": "Shared skills, safe for production.",
+      "category": "production",
+      "source_url": "https://github.com/smith-horn/skillsmith",
+      "repository_url": "https://github.com/smith-horn/skillsmith",
+      "revision": "unresolved",
+      "license": "UNKNOWN",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "link-only",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "smith-horn",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "link-only",
+      "flags": [
+        "inspection-failed",
+        "licence-unclear-or-restrictive: catalogue and link only"
+      ]
+    },
+    {
+      "id": "github/squirrelscan/squirrelscan",
+      "name": "squirrelscan",
+      "description": "The website QA tool for your coding agent. 300+ audit rules across SEO, performance, security, accessibility and agent experience.",
+      "category": "security",
+      "source_url": "https://github.com/squirrelscan/squirrelscan",
+      "repository_url": "https://github.com/squirrelscan/squirrelscan",
+      "revision": "unresolved",
+      "license": "MIT",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "pending-human-review",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "squirrelscan",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "permitted-by-license",
+      "flags": [
+        "inspection-failed"
+      ]
+    },
+    {
+      "id": "github/starpia-forge/codex-delegate",
+      "name": "codex-delegate",
+      "description": "Codex delegation for mattpocock/skills (unofficial): Claude Code leads, Codex workers research, review plans and implement.",
+      "category": "engineering",
+      "source_url": "https://github.com/starpia-forge/codex-delegate",
+      "repository_url": "https://github.com/starpia-forge/codex-delegate",
+      "revision": "unresolved",
+      "license": "MIT",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "pending-human-review",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "starpia-forge",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "permitted-by-license",
+      "flags": [
+        "inspection-failed"
+      ]
+    },
+    {
+      "id": "github/tanishkkamra/claude-skills-kit",
+      "name": "claude-skills-kit",
+      "description": "Master commands for Claude Code: interview, brief, orchestrate skills",
+      "category": "external-unclassified",
+      "source_url": "https://github.com/TanishkKamra/claude-skills-kit",
+      "repository_url": "https://github.com/TanishkKamra/claude-skills-kit",
+      "revision": "03bd4591800a54ee4bb0ed7b54fc25770731eeb2",
+      "license": "MIT",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "pending-human-review",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "TanishkKamra",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "permitted-by-license",
+      "flags": [
+        "inspection-failed"
+      ]
+    },
+    {
+      "id": "github/techfleetworks/enterprise-software-ai-skills",
+      "name": "enterprise-software-AI-skills",
+      "description": "Portable, vendor-neutral engineering agent skills. Installs on your agent when you pull the repo. Security, architecture, performance, testing, release safety, UX, accessibility, and compliance. Operates under the MIT license.",
+      "category": "security",
+      "source_url": "https://github.com/techfleetworks/enterprise-software-AI-skills",
+      "repository_url": "https://github.com/techfleetworks/enterprise-software-AI-skills",
+      "revision": "unresolved",
+      "license": "MIT",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "pending-human-review",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "techfleetworks",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "permitted-by-license",
+      "flags": [
+        "inspection-failed"
+      ]
+    },
+    {
+      "id": "github/web3senior/hupsocial",
+      "name": "hupsocial",
+      "description": "Building communities for public and underground societies.",
+      "category": "external-unclassified",
+      "source_url": "https://github.com/web3senior/hupsocial",
+      "repository_url": "https://github.com/web3senior/hupsocial",
+      "revision": "unresolved",
+      "license": "MIT",
+      "compatibility": [
+        "unverified"
+      ],
+      "last_reviewed": null,
+      "review_status": "pending-human-review",
+      "risk_notes": "Not reviewed. Do not install or execute until a human has read every file.",
+      "related_skills": [],
+      "author": "web3senior",
+      "retrieved_at": "2026-10-26",
+      "redistribution": "permitted-by-license",
+      "flags": [
+        "inspection-failed"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1239 @@
+{
+  "security": [
+    {
+      "id": "SEC-01",
+      "title": "Exposed database credentials",
+      "primary_skill": "secrets-detection",
+      "secondary_skills": [
+        "cloud-config"
+      ],
+      "detect": "Search config, code, CI files, container images and history for connection strings with embedded passwords; check whether the DB port is reachable from the public internet.",
+      "remediate": "Move credentials to a secret manager or runtime environment; rotate any exposed credential (human approval); restrict DB network access.",
+      "verification": "Re-scan working tree and history; confirm the old credential no longer authenticates; confirm DB port unreachable from outside the allowed network."
+    },
+    {
+      "id": "SEC-02",
+      "title": "Public .env files",
+      "primary_skill": "secrets-detection",
+      "secondary_skills": [
+        "cloud-config"
+      ],
+      "detect": "Check that .env* is git-ignored and absent from build output, Docker contexts and web roots; request /.env on a deployed test host.",
+      "remediate": "Add .env* to .gitignore and .dockerignore; keep only a placeholder .env.example; configure the web server to deny dotfiles.",
+      "verification": "Fetch /.env and variants against the deployed build: expect 403/404 and no secret content. Confirm `git ls-files` lists no real .env."
+    },
+    {
+      "id": "SEC-03",
+      "title": "Hardcoded secrets",
+      "primary_skill": "secrets-detection",
+      "secondary_skills": [],
+      "detect": "Run a dedicated secret scanner (e.g. gitleaks, trufflehog, detect-secrets) plus entropy and keyword review of source, tests, notebooks and IaC.",
+      "remediate": "Replace literals with environment or secret-manager lookups; fail fast at startup when a required secret is missing; rotate exposed values.",
+      "verification": "Scanner reports zero verified findings (document allowlisted false positives); app fails clearly when a secret is unset."
+    },
+    {
+      "id": "SEC-04",
+      "title": "Weak authentication",
+      "primary_skill": "authentication-authorization",
+      "secondary_skills": [
+        "rate-limits-abuse"
+      ],
+      "detect": "Review password policy, hashing algorithm, login flow, lockout, and any custom auth code that replaces a vetted library.",
+      "remediate": "Use a maintained auth library or identity provider; hash with Argon2id, scrypt or bcrypt; enforce length-based policy and breach-password checks.",
+      "verification": "Unit/integration tests for hashing parameters, lockout/throttle behaviour and rejection of weak passwords."
+    },
+    {
+      "id": "SEC-05",
+      "title": "Missing authorization checks",
+      "primary_skill": "authentication-authorization",
+      "secondary_skills": [
+        "api-access-control"
+      ],
+      "detect": "Enumerate every route/handler/action and mark which check identity and which check permission; look for handlers with no check.",
+      "remediate": "Enforce authorization server-side, deny by default, centralise policy in middleware or policy functions.",
+      "verification": "Per-endpoint tests: anonymous, wrong-role and correct-role requests return 401/403/200 as designed."
+    },
+    {
+      "id": "SEC-06",
+      "title": "Cross-user access",
+      "primary_skill": "api-access-control",
+      "secondary_skills": [
+        "authentication-authorization"
+      ],
+      "detect": "Trace each data read/write to see whether the owner or tenant is derived from the session or from client input.",
+      "remediate": "Derive user/tenant from the authenticated session; scope every query by owner; add DB-level row security where supported.",
+      "verification": "Two-account test: user A cannot read, update or delete user B's records through any endpoint."
+    },
+    {
+      "id": "SEC-07",
+      "title": "Open database permissions",
+      "primary_skill": "cloud-config",
+      "secondary_skills": [
+        "api-access-control"
+      ],
+      "detect": "Inspect DB roles, grants, row-level-security status, public buckets/collections, and network rules (e.g. 0.0.0.0/0).",
+      "remediate": "Create least-privilege roles per service; enable row-level security or equivalent; close public network access.",
+      "verification": "Connect with the application role and confirm only intended tables/operations succeed; external connection attempts fail."
+    },
+    {
+      "id": "SEC-08",
+      "title": "Cloud service misconfiguration",
+      "primary_skill": "cloud-config",
+      "secondary_skills": [],
+      "detect": "Review IaC and console exports for public storage, wide IAM policies, disabled encryption/logging, open security groups. Use IaC scanners where available (e.g. checkov, tfsec/trivy).",
+      "remediate": "Apply least-privilege IAM, private-by-default storage, encryption at rest, logging enabled; manage via reviewed IaC.",
+      "verification": "Re-run IaC scanner and attach output; confirm with a read-only cloud inspection (human-approved) that live state matches IaC."
+    },
+    {
+      "id": "SEC-09",
+      "title": "Unprotected admin routes",
+      "primary_skill": "authentication-authorization",
+      "secondary_skills": [
+        "cloud-config"
+      ],
+      "detect": "List admin/internal routes (/admin, /internal, /debug, framework admin panels) and test them unauthenticated and as a normal user.",
+      "remediate": "Require authentication plus an admin role check on every admin route; restrict by network or VPN where possible; require MFA for admins.",
+      "verification": "Automated test that anonymous and non-admin requests to each admin route are rejected."
+    },
+    {
+      "id": "SEC-10",
+      "title": "Exposed production debug tools",
+      "primary_skill": "cloud-config",
+      "secondary_skills": [],
+      "detect": "Look for DEBUG=true, debug toolbars, profilers, /actuator, /_debug, GraphQL introspection or playgrounds, Swagger UI enabled in production.",
+      "remediate": "Gate debug features on environment; disable or authenticate diagnostic endpoints; separate prod and dev config.",
+      "verification": "Request known debug paths on the production-like build and confirm 401/403/404; confirm DEBUG is false in effective config."
+    },
+    {
+      "id": "SEC-11",
+      "title": "Secrets in logs",
+      "primary_skill": "secrets-detection",
+      "secondary_skills": [
+        "logging-monitoring-backups"
+      ],
+      "detect": "Search logging calls for request bodies, headers, tokens, connection strings, and objects serialized whole; inspect sample logs.",
+      "remediate": "Add redaction in the logger (authorization, cookie, password, token, key fields); log identifiers not payloads.",
+      "verification": "Test that a request containing a canary secret never appears in captured log output."
+    },
+    {
+      "id": "SEC-12",
+      "title": "Verbose production errors",
+      "primary_skill": "cloud-config",
+      "secondary_skills": [
+        "logging-monitoring-backups"
+      ],
+      "detect": "Trigger errors in a production-mode build and check for stack traces, SQL, file paths, framework banners.",
+      "remediate": "Return generic error bodies with a correlation ID; log detail server-side only; set production error handlers.",
+      "verification": "Force 400/404/500 conditions and assert response bodies contain no stack trace, path or query text."
+    },
+    {
+      "id": "SEC-13",
+      "title": "Secrets in Git history",
+      "primary_skill": "secrets-detection",
+      "secondary_skills": [],
+      "detect": "Scan full history and all branches/tags (e.g. gitleaks/trufflehog in git mode), including deleted files.",
+      "remediate": "Rotate the secret first (human approval). History rewriting is optional, destructive and needs explicit approval; deletion from HEAD alone is not a fix.",
+      "verification": "History scan shows no active secrets; the exposed credential is confirmed revoked."
+    },
+    {
+      "id": "SEC-14",
+      "title": "Secrets in frontend JavaScript",
+      "primary_skill": "secrets-detection",
+      "secondary_skills": [
+        "web-input-security"
+      ],
+      "detect": "Inspect built bundles, HTML, source maps and public env prefixes (NEXT_PUBLIC_, VITE_, REACT_APP_) for private keys or privileged tokens.",
+      "remediate": "Move privileged calls to a backend; only publishable/public keys may reach the client; rotate leaked keys.",
+      "verification": "Grep production build output for known secret patterns and key names; confirm the client works using only public keys."
+    },
+    {
+      "id": "SEC-15",
+      "title": "Client-only security",
+      "primary_skill": "authentication-authorization",
+      "secondary_skills": [
+        "payment-business-logic",
+        "web-input-security"
+      ],
+      "detect": "Find checks that exist only in UI code (hidden buttons, client-side role flags, JS validation, price calculations).",
+      "remediate": "Re-implement every check on the server; treat client state as untrusted input.",
+      "verification": "Bypass the UI (curl or API client) and confirm the server still rejects the forbidden action."
+    },
+    {
+      "id": "SEC-16",
+      "title": "Missing or weak input validation",
+      "primary_skill": "injection-prevention",
+      "secondary_skills": [
+        "web-input-security"
+      ],
+      "detect": "Map all inputs (body, query, headers, files, webhooks, env) and check for schema validation on type, length, range and format.",
+      "remediate": "Validate at the boundary with a schema library; allowlist formats; reject unknown fields; validate again on the server.",
+      "verification": "Negative tests with malformed, oversized, wrong-type and boundary values return 4xx and never reach business logic."
+    },
+    {
+      "id": "SEC-17",
+      "title": "SQL injection",
+      "primary_skill": "injection-prevention",
+      "secondary_skills": [
+        "cloud-config"
+      ],
+      "detect": "Find string-built SQL (concatenation, f-strings, template literals) and ORM raw-query escapes; use SAST rules.",
+      "remediate": "Use parameterised queries/prepared statements; allowlist dynamic identifiers; least-privilege DB role.",
+      "verification": "Regression test with injection payloads against each query path; static scan shows no string-built SQL."
+    },
+    {
+      "id": "SEC-18",
+      "title": "NoSQL injection",
+      "primary_skill": "injection-prevention",
+      "secondary_skills": [],
+      "detect": "Look for query objects built directly from request JSON (e.g. operators like $ne, $gt, $where) and unsanitised filters.",
+      "remediate": "Validate types so operators cannot be injected; strip/deny $-prefixed keys; avoid server-side JS evaluation.",
+      "verification": "Send operator payloads in login and filter endpoints and confirm rejection."
+    },
+    {
+      "id": "SEC-19",
+      "title": "Cross-site scripting (XSS)",
+      "primary_skill": "web-input-security",
+      "secondary_skills": [],
+      "detect": "Find innerHTML, dangerouslySetInnerHTML, v-html, unescaped template output, unsafe URL attributes, and markdown/HTML rendering of user content.",
+      "remediate": "Use context-aware output encoding; prefer framework auto-escaping; sanitise rich HTML with a maintained sanitizer; add a Content-Security-Policy.",
+      "verification": "Inject test payloads in every stored/reflected field and confirm they render inert; CSP report-only then enforce."
+    },
+    {
+      "id": "SEC-20",
+      "title": "Cross-site request forgery (CSRF)",
+      "primary_skill": "web-input-security",
+      "secondary_skills": [
+        "session-jwt-oauth"
+      ],
+      "detect": "Identify state-changing endpoints relying on cookie auth without CSRF tokens or SameSite protection.",
+      "remediate": "Use framework CSRF tokens or double-submit pattern, SameSite=Lax/Strict cookies, and Origin/Referer checks; never mutate on GET.",
+      "verification": "Cross-origin form/fetch test without token is rejected; token round trip succeeds."
+    },
+    {
+      "id": "SEC-21",
+      "title": "Insecure file uploads",
+      "primary_skill": "web-input-security",
+      "secondary_skills": [
+        "injection-prevention"
+      ],
+      "detect": "Review upload handlers for type/size checks, storage location, filename use, execution permissions and public access.",
+      "remediate": "Allowlist types by content not extension; cap size; generate server-side names; store outside web root or in private object storage; scan if risk warrants; serve with safe Content-Type and Content-Disposition.",
+      "verification": "Upload test files (oversized, wrong type, double extension, traversal name) and confirm rejection; confirm uploaded files are not executable."
+    },
+    {
+      "id": "SEC-22",
+      "title": "Path traversal",
+      "primary_skill": "injection-prevention",
+      "secondary_skills": [
+        "web-input-security"
+      ],
+      "detect": "Find file reads/writes/serves built from user input (path join, send_file, archive extraction).",
+      "remediate": "Resolve to canonical path and verify it stays inside an allowed base directory; use ID-to-path lookup rather than raw names; safe archive extraction.",
+      "verification": "Tests with ../, encoded and absolute path payloads return 4xx and never touch files outside the base."
+    },
+    {
+      "id": "SEC-23",
+      "title": "Server-side request forgery (SSRF)",
+      "primary_skill": "ssrf-cors-webhooks",
+      "secondary_skills": [
+        "cloud-config"
+      ],
+      "detect": "Find server-side fetches of user-supplied URLs (previews, webhooks, importers, image proxies).",
+      "remediate": "Allowlist destinations; resolve DNS and block private, loopback, link-local and metadata ranges after redirects; disable or re-validate redirects; enforce timeouts and size limits.",
+      "verification": "Tests against localhost, 169.254.169.254, private ranges, DNS-rebinding style hostnames and redirects to them are all blocked."
+    },
+    {
+      "id": "SEC-24",
+      "title": "Broken password reset flows",
+      "primary_skill": "authentication-authorization",
+      "secondary_skills": [
+        "rate-limits-abuse"
+      ],
+      "detect": "Review token generation, expiry, single use, storage, delivery, host-header trust and session invalidation after reset.",
+      "remediate": "Use high-entropy single-use tokens stored hashed, short expiry, constant responses regardless of account existence, invalidate sessions after reset.",
+      "verification": "Tests: reused, expired and tampered tokens fail; response identical for known/unknown emails; old sessions revoked."
+    },
+    {
+      "id": "SEC-25",
+      "title": "Weak session management",
+      "primary_skill": "session-jwt-oauth",
+      "secondary_skills": [
+        "web-input-security"
+      ],
+      "detect": "Review session ID generation, rotation on login, idle/absolute timeout, logout invalidation and storage.",
+      "remediate": "Use framework session management; regenerate ID on privilege change; enforce timeouts; server-side invalidate on logout.",
+      "verification": "Tests: session fixation attempt fails; logout invalidates server-side; expired sessions rejected."
+    },
+    {
+      "id": "SEC-26",
+      "title": "Exposed or weak JWT secrets and validation",
+      "primary_skill": "session-jwt-oauth",
+      "secondary_skills": [
+        "secrets-detection"
+      ],
+      "detect": "Check secret strength/location, algorithm pinning, alg=none handling, exp/aud/iss validation, key rotation and token storage.",
+      "remediate": "Use strong secrets or asymmetric keys from a secret manager; pin allowed algorithms; validate exp, iss, aud; keep access tokens short-lived.",
+      "verification": "Tests: tampered, unsigned, expired, wrong-audience and wrong-algorithm tokens are rejected."
+    },
+    {
+      "id": "SEC-27",
+      "title": "Permissive CORS",
+      "primary_skill": "ssrf-cors-webhooks",
+      "secondary_skills": [],
+      "detect": "Look for Access-Control-Allow-Origin: * with credentials, reflected Origin, overly broad regex origins, null origin.",
+      "remediate": "Allowlist exact origins; never combine wildcard with credentials; restrict methods and headers.",
+      "verification": "Send requests with disallowed Origin headers and confirm no ACAO header; allowed origin returns exact match only."
+    },
+    {
+      "id": "SEC-28",
+      "title": "Missing or ineffective rate limits",
+      "primary_skill": "rate-limits-abuse",
+      "secondary_skills": [
+        "authentication-authorization"
+      ],
+      "detect": "Check login, reset, signup, OTP, search, expensive and AI endpoints for throttling; check keying (IP only vs account) and bypass via headers.",
+      "remediate": "Apply per-account and per-IP limits with a shared store; stricter limits on auth and costly endpoints; return 429 with Retry-After.",
+      "verification": "Load test within safe limits on a test environment to confirm 429 occurs and limits survive multiple instances."
+    },
+    {
+      "id": "SEC-29",
+      "title": "Exposed development and staging environments",
+      "primary_skill": "cloud-config",
+      "secondary_skills": [],
+      "detect": "Enumerate dev/staging hosts and URLs referenced in repo/DNS; check authentication and indexing.",
+      "remediate": "Put non-prod behind SSO/VPN/IP allowlist; use separate data and secrets; add noindex and auth.",
+      "verification": "Unauthenticated request to each non-prod host is denied; no production data present."
+    },
+    {
+      "id": "SEC-30",
+      "title": "Default credentials",
+      "primary_skill": "authentication-authorization",
+      "secondary_skills": [
+        "secrets-detection"
+      ],
+      "detect": "Search seeds, docker-compose, README, IaC and admin tools for admin/admin, changeme, example passwords.",
+      "remediate": "Remove defaults; require first-run credential setup; generate random secrets per environment.",
+      "verification": "Attempt documented default logins against a test deployment and confirm failure; seed scripts contain none."
+    },
+    {
+      "id": "SEC-31",
+      "title": "Unsigned webhooks",
+      "primary_skill": "ssrf-cors-webhooks",
+      "secondary_skills": [
+        "payment-business-logic"
+      ],
+      "detect": "Check inbound webhook handlers for signature verification using the raw body and a constant-time comparison.",
+      "remediate": "Verify provider signature with the shared secret before processing; reject on failure; fail closed.",
+      "verification": "Tests: missing, invalid and modified-body signatures are rejected; valid signature accepted."
+    },
+    {
+      "id": "SEC-32",
+      "title": "Frontend-only payment verification",
+      "primary_skill": "payment-business-logic",
+      "secondary_skills": [
+        "ssrf-cors-webhooks"
+      ],
+      "detect": "Check whether order success, price, entitlement or plan is decided from client redirect/query state.",
+      "remediate": "Confirm payment server-side via provider API or verified webhook; compute prices on the server; grant entitlements only after verified events.",
+      "verification": "Test with provider test mode: forged success redirect without payment grants nothing."
+    },
+    {
+      "id": "SEC-33",
+      "title": "IDOR / BOLA",
+      "primary_skill": "api-access-control",
+      "secondary_skills": [
+        "authentication-authorization"
+      ],
+      "detect": "For every endpoint taking an object ID, check whether ownership/permission is verified for that object.",
+      "remediate": "Authorize per object; use scoped queries; consider unguessable IDs as defence in depth, not as the control.",
+      "verification": "Two-account automated test enumerating ID-bearing endpoints; cross-account access returns 403/404."
+    },
+    {
+      "id": "SEC-34",
+      "title": "Unsafe APIs accepting untrusted input",
+      "primary_skill": "api-access-control",
+      "secondary_skills": [
+        "injection-prevention"
+      ],
+      "detect": "Review APIs for unvalidated bodies, overly broad filters, unbounded pagination/sorting, and dangerous parameters.",
+      "remediate": "Schema-validate; cap page size; allowlist sort/filter fields; return only needed fields.",
+      "verification": "Fuzz-style tests with oversized, nested and unexpected inputs confirm bounded behaviour."
+    },
+    {
+      "id": "SEC-35",
+      "title": "Exposed logs",
+      "primary_skill": "cloud-config",
+      "secondary_skills": [
+        "logging-monitoring-backups"
+      ],
+      "detect": "Check for publicly reachable log files, log dashboards, storage buckets and verbose log endpoints.",
+      "remediate": "Store logs in access-controlled systems; remove log files from web roots; authenticate dashboards.",
+      "verification": "Unauthenticated access attempts to log paths/dashboards are denied."
+    },
+    {
+      "id": "SEC-36",
+      "title": "Exposed source maps",
+      "primary_skill": "cloud-config",
+      "secondary_skills": [
+        "secrets-detection"
+      ],
+      "detect": "Check build output and deployed host for *.map files and sourceMappingURL comments.",
+      "remediate": "Disable public source maps in production or upload them privately to error-tracking only.",
+      "verification": "Request known .map URLs on the production build: expect 404; scan dist for sourceMappingURL."
+    },
+    {
+      "id": "SEC-37",
+      "title": "Vulnerable dependencies",
+      "primary_skill": "dependency-supply-chain",
+      "secondary_skills": [],
+      "detect": "Run ecosystem audit tools (npm audit, pip-audit, osv-scanner, cargo audit, etc.) against lockfiles; review transitive depth.",
+      "remediate": "Upgrade or replace vulnerable packages; document accepted risk with expiry; enable automated update PRs for review.",
+      "verification": "Re-run audit after changes and attach output; run the test suite on upgraded versions."
+    },
+    {
+      "id": "SEC-38",
+      "title": "Malicious packages",
+      "primary_skill": "dependency-supply-chain",
+      "secondary_skills": [
+        "skill-supply-chain-review"
+      ],
+      "detect": "Review new/changed dependencies for typosquatting, install scripts, unknown maintainers, recent ownership changes.",
+      "remediate": "Remove suspicious packages; require review for new dependencies; use lockfiles with integrity hashes; consider install-script restrictions.",
+      "verification": "Dependency diff reviewed and approved by a human; lockfile integrity verified in CI."
+    },
+    {
+      "id": "SEC-39",
+      "title": "Prompt injection",
+      "primary_skill": "ai-agent-security",
+      "secondary_skills": [],
+      "detect": "Identify where untrusted text (web pages, emails, documents, tool output, user input) enters model context alongside instructions and tools.",
+      "remediate": "Separate trusted instructions from untrusted data; minimise tool permissions; require human confirmation for sensitive actions; validate outputs. Prompting alone does not eliminate the risk.",
+      "verification": "Red-team test set of injection payloads; confirm sensitive actions are blocked by code-level controls, not just model compliance."
+    },
+    {
+      "id": "SEC-40",
+      "title": "Unpermissioned AI access",
+      "primary_skill": "ai-agent-security",
+      "secondary_skills": [
+        "api-access-control"
+      ],
+      "detect": "Check what data and tools an AI feature can reach and whether access respects the calling user's permissions.",
+      "remediate": "Run AI actions with the end user's authorization, not a service superuser; scope retrieval by user/tenant.",
+      "verification": "Test that a user cannot obtain another user's data through the AI feature."
+    },
+    {
+      "id": "SEC-41",
+      "title": "Excessive database permissions",
+      "primary_skill": "cloud-config",
+      "secondary_skills": [
+        "api-access-control"
+      ],
+      "detect": "Review the DB account used by the app, migrations and AI tools for DDL, superuser or cross-schema rights.",
+      "remediate": "Separate migration and runtime roles; grant minimum table/column privileges; read-only roles for analytics and AI.",
+      "verification": "Attempt a forbidden statement (e.g. DROP) with the runtime role in a test DB: it must fail."
+    },
+    {
+      "id": "SEC-42",
+      "title": "Missing audit logs",
+      "primary_skill": "logging-monitoring-backups",
+      "secondary_skills": [],
+      "detect": "Check that logins, permission changes, admin actions, data exports and deletions produce tamper-resistant records.",
+      "remediate": "Add structured audit events (actor, action, target, time, outcome) without sensitive payloads; ship to append-only storage.",
+      "verification": "Perform each audited action in test and confirm one event with required fields."
+    },
+    {
+      "id": "SEC-43",
+      "title": "Missing security monitoring",
+      "primary_skill": "logging-monitoring-backups",
+      "secondary_skills": [],
+      "detect": "Check for alerting on auth failures, privilege changes, error spikes, unusual egress and rate-limit hits.",
+      "remediate": "Define alert rules and owners; route to an on-call channel; document runbooks.",
+      "verification": "Trigger a test event and confirm an alert reaches its owner."
+    },
+    {
+      "id": "SEC-44",
+      "title": "Missing or untested backups",
+      "primary_skill": "logging-monitoring-backups",
+      "secondary_skills": [],
+      "detect": "Check backup existence, frequency, retention, encryption, off-site copy and last successful restore test.",
+      "remediate": "Automate backups with retention and separate credentials; schedule restore drills; document RPO/RTO.",
+      "verification": "Perform a restore into an isolated environment and record the result; a backup never restored is unverified."
+    },
+    {
+      "id": "SEC-45",
+      "title": "Exposed internal dashboards",
+      "primary_skill": "cloud-config",
+      "secondary_skills": [
+        "authentication-authorization"
+      ],
+      "detect": "Find admin/monitoring tools (Grafana, Kibana, queues, DB UIs, feature-flag consoles) reachable publicly.",
+      "remediate": "Place behind SSO/VPN/allowlist; disable anonymous access; change default credentials.",
+      "verification": "External unauthenticated request to each dashboard returns login/deny."
+    },
+    {
+      "id": "SEC-46",
+      "title": "Missing security headers",
+      "primary_skill": "web-input-security",
+      "secondary_skills": [
+        "cloud-config"
+      ],
+      "detect": "Inspect response headers for HSTS, CSP, X-Content-Type-Options, frame-ancestors/X-Frame-Options, Referrer-Policy, Permissions-Policy.",
+      "remediate": "Set headers at the edge or framework; roll out CSP in report-only first; HSTS only after HTTPS is fully working.",
+      "verification": "Header check against the deployed build (curl -I) and automated test in CI."
+    },
+    {
+      "id": "SEC-47",
+      "title": "Insecure cookie settings",
+      "primary_skill": "web-input-security",
+      "secondary_skills": [
+        "session-jwt-oauth"
+      ],
+      "detect": "Review Set-Cookie for HttpOnly, Secure, SameSite, Path/Domain scope and lifetime.",
+      "remediate": "Set HttpOnly, Secure, SameSite and minimal scope on session cookies; use __Host- prefix where suitable.",
+      "verification": "Inspect Set-Cookie on login in a production-like environment and assert attributes."
+    },
+    {
+      "id": "SEC-48",
+      "title": "Unencrypted sensitive data",
+      "primary_skill": "crypto-data-protection",
+      "secondary_skills": [
+        "cloud-config"
+      ],
+      "detect": "Check TLS in transit (including internal), encryption at rest, field-level protection of sensitive data, password storage and key management.",
+      "remediate": "Enforce TLS; enable storage encryption; encrypt high-sensitivity fields with managed keys; hash passwords; plan key rotation.",
+      "verification": "Verify TLS config with a scanner or handshake test; confirm encryption flags in IaC/console; inspect stored values for plaintext."
+    },
+    {
+      "id": "SEC-49",
+      "title": "Poor tenant isolation",
+      "primary_skill": "api-access-control",
+      "secondary_skills": [
+        "crypto-data-protection"
+      ],
+      "detect": "Check every query, cache key, file path, search index and background job for tenant scoping.",
+      "remediate": "Enforce tenant scope centrally (middleware, ORM scopes, row-level security); namespace caches and storage.",
+      "verification": "Two-tenant test suite covering API, cache, search, exports and jobs."
+    },
+    {
+      "id": "SEC-50",
+      "title": "Unreviewed code",
+      "primary_skill": "security-audit",
+      "secondary_skills": [
+        "code-review-testing"
+      ],
+      "detect": "Check branch protection, required reviews, review of AI-generated code, and CODEOWNERS for sensitive paths.",
+      "remediate": "Require human review before merge, especially for AI-generated changes and security-sensitive paths.",
+      "verification": "Confirm protection settings in the platform and that recent merges had reviews."
+    },
+    {
+      "id": "SEC-51",
+      "title": "Mass assignment",
+      "primary_skill": "api-access-control",
+      "secondary_skills": [
+        "injection-prevention"
+      ],
+      "detect": "Find code binding request bodies directly to models (e.g. update(**request.json)) allowing fields like role, isAdmin, price.",
+      "remediate": "Use explicit allowlisted DTOs/serializers per operation; mark sensitive fields read-only.",
+      "verification": "Send extra fields (role, tenant_id, is_admin) and confirm they are ignored or rejected."
+    },
+    {
+      "id": "SEC-52",
+      "title": "Command injection",
+      "primary_skill": "injection-prevention",
+      "secondary_skills": [],
+      "detect": "Find shell execution with user input (exec, system, subprocess with shell=True, backticks).",
+      "remediate": "Avoid shells; use argument-array APIs or native libraries; allowlist values.",
+      "verification": "Payload tests with ; | $() and newlines produce no command execution; static scan has no shell=True on tainted input."
+    },
+    {
+      "id": "SEC-53",
+      "title": "Insecure deserialization",
+      "primary_skill": "injection-prevention",
+      "secondary_skills": [],
+      "detect": "Find pickle, yaml.load, Java ObjectInputStream, PHP unserialize, unsafe JSON revivers on untrusted data.",
+      "remediate": "Use safe data formats (JSON with schema); safe loaders; never deserialize untrusted native objects; sign data if state must round trip.",
+      "verification": "Static scan shows no unsafe loaders on untrusted input; malicious-object test is rejected."
+    },
+    {
+      "id": "SEC-54",
+      "title": "Misconfigured OAuth",
+      "primary_skill": "session-jwt-oauth",
+      "secondary_skills": [
+        "web-input-security"
+      ],
+      "detect": "Review redirect URI validation, state/nonce, PKCE, scope minimisation, token storage, account linking.",
+      "remediate": "Exact-match redirect URIs; require state and PKCE; least scopes; verify ID token claims; safe account linking.",
+      "verification": "Tests: altered redirect URI, missing state and replayed codes are rejected."
+    },
+    {
+      "id": "SEC-55",
+      "title": "Missing MFA",
+      "primary_skill": "authentication-authorization",
+      "secondary_skills": [
+        "session-jwt-oauth"
+      ],
+      "detect": "Check whether admins and sensitive accounts can enrol and are required to use MFA; check recovery paths.",
+      "remediate": "Offer TOTP/WebAuthn; require for privileged users; protect recovery flows; avoid SMS-only where feasible.",
+      "verification": "Test that privileged login without second factor fails and recovery cannot bypass it."
+    },
+    {
+      "id": "SEC-56",
+      "title": "Account enumeration",
+      "primary_skill": "authentication-authorization",
+      "secondary_skills": [
+        "rate-limits-abuse"
+      ],
+      "detect": "Compare responses, status codes and timing for login, signup and reset with known vs unknown accounts.",
+      "remediate": "Use uniform messages and similar timing; rate limit; avoid confirming existence.",
+      "verification": "Automated comparison of responses for existing vs non-existing accounts shows no distinguishable difference."
+    },
+    {
+      "id": "SEC-57",
+      "title": "Business logic abuse",
+      "primary_skill": "payment-business-logic",
+      "secondary_skills": [
+        "rate-limits-abuse"
+      ],
+      "detect": "Model workflows (coupons, credits, refunds, referrals, quotas, negative numbers, step skipping) and look for abuse paths.",
+      "remediate": "Enforce state machines and invariants on the server; limit and monitor high-value actions.",
+      "verification": "Abuse-case tests for each workflow invariant (negative amounts, repeated coupon, skipped step)."
+    },
+    {
+      "id": "SEC-58",
+      "title": "Race conditions",
+      "primary_skill": "payment-business-logic",
+      "secondary_skills": [],
+      "detect": "Look for check-then-act sequences on balances, inventory, coupons, uniqueness without locks/constraints.",
+      "remediate": "Use transactions, row locks, unique constraints, atomic updates and idempotency keys.",
+      "verification": "Concurrent request test (parallel calls) confirms single success."
+    },
+    {
+      "id": "SEC-59",
+      "title": "Webhook replay",
+      "primary_skill": "ssrf-cors-webhooks",
+      "secondary_skills": [
+        "payment-business-logic"
+      ],
+      "detect": "Check for timestamp tolerance and event-ID de-duplication on inbound webhooks.",
+      "remediate": "Reject stale timestamps; store processed event IDs; make handlers idempotent.",
+      "verification": "Replay a captured valid request and confirm it is rejected or has no second effect."
+    },
+    {
+      "id": "SEC-60",
+      "title": "Insecure CI/CD",
+      "primary_skill": "dependency-supply-chain",
+      "secondary_skills": [
+        "security-audit"
+      ],
+      "detect": "Review pipeline permissions, secret exposure to forks/PRs, self-hosted runners, script injection through untrusted inputs, deploy credentials.",
+      "remediate": "Least-privilege tokens; no secrets to untrusted PRs; avoid interpolating untrusted data into shell; protect deploy branches and environments.",
+      "verification": "Review workflow files against a checklist/linter (e.g. actionlint, zizmor) and attach output."
+    },
+    {
+      "id": "SEC-61",
+      "title": "Untrusted build actions",
+      "primary_skill": "dependency-supply-chain",
+      "secondary_skills": [],
+      "detect": "Inventory third-party actions, orbs, plugins and base images; check source, maintainers and reference style.",
+      "remediate": "Prefer vetted publishers; pin to full commit SHA or digest; review updates; minimise third-party steps.",
+      "verification": "Lint shows no mutable-tag references for third-party actions; digest pins present for base images."
+    },
+    {
+      "id": "SEC-62",
+      "title": "Unpinned build dependencies",
+      "primary_skill": "dependency-supply-chain",
+      "secondary_skills": [],
+      "detect": "Check for floating versions, missing lockfiles, curl|sh installers, latest tags.",
+      "remediate": "Commit lockfiles; pin versions and hashes; pin image digests; use reproducible build settings.",
+      "verification": "Clean build in CI from lockfile succeeds; diff of lockfile reviewed on updates."
+    },
+    {
+      "id": "SEC-63",
+      "title": "Security checks that fail open",
+      "primary_skill": "security-audit",
+      "secondary_skills": [
+        "rate-limits-abuse",
+        "ssrf-cors-webhooks"
+      ],
+      "detect": "Search for try/except that allows access on error, auth/rate-limit/WAF clients that default to allow on timeout, scanners marked non-blocking.",
+      "remediate": "Fail closed for auth, authorisation, validation and signature checks; alert on check failures.",
+      "verification": "Fault-injection tests: when the check dependency is down, the protected action is denied."
+    },
+    {
+      "id": "SEC-64",
+      "title": "Missing timeouts",
+      "primary_skill": "ssrf-cors-webhooks",
+      "secondary_skills": [
+        "rate-limits-abuse"
+      ],
+      "detect": "Find outbound HTTP, DB, queue and subprocess calls without timeouts and servers without request/body limits.",
+      "remediate": "Set connect/read timeouts, retries with backoff and caps, request size limits, circuit breakers.",
+      "verification": "Test against a slow endpoint confirms the call aborts within the configured limit."
+    },
+    {
+      "id": "SEC-65",
+      "title": "Sensitive information leakage",
+      "primary_skill": "crypto-data-protection",
+      "secondary_skills": [
+        "logging-monitoring-backups",
+        "web-input-security"
+      ],
+      "detect": "Check API responses, errors, URLs, referrers, analytics, caches and exports for over-sharing of PII/secrets.",
+      "remediate": "Return minimal fields via explicit response schemas; keep secrets out of URLs; set cache-control on sensitive responses; scrub analytics.",
+      "verification": "Response-schema tests assert absence of sensitive fields; inspect cache headers on sensitive routes."
+    },
+    {
+      "id": "SEC-66",
+      "title": "Invalid AI output",
+      "primary_skill": "ai-agent-security",
+      "secondary_skills": [
+        "injection-prevention",
+        "web-input-security"
+      ],
+      "detect": "Find places where model output is executed, rendered as HTML, used in SQL/URLs/commands, or trusted as structured data.",
+      "remediate": "Treat output as untrusted: schema-validate, encode for the sink, parameterise queries, allowlist URLs/commands, human confirmation for high impact.",
+      "verification": "Tests feed malformed or hostile model output and confirm sinks reject or neutralise it."
+    },
+    {
+      "id": "SEC-67",
+      "title": "Excessive AI permissions",
+      "primary_skill": "ai-agent-security",
+      "secondary_skills": [
+        "security-audit"
+      ],
+      "detect": "Inventory tools, tokens, file/network/shell access given to agents or AI features.",
+      "remediate": "Grant least privilege, scoped short-lived credentials, sandbox execution, allowlisted commands, approval gates for destructive or external actions.",
+      "verification": "Permission review table plus test showing denied actions are blocked by the platform, not only by prompt."
+    },
+    {
+      "id": "SEC-68",
+      "title": "Sensitive browser storage",
+      "primary_skill": "web-input-security",
+      "secondary_skills": [
+        "session-jwt-oauth"
+      ],
+      "detect": "Check localStorage/sessionStorage/IndexedDB/cookies for tokens, PII or secrets.",
+      "remediate": "Prefer HttpOnly cookies for session credentials; avoid storing sensitive data client-side; clear on logout.",
+      "verification": "Inspect browser storage after login/logout in a test run and assert no sensitive values."
+    },
+    {
+      "id": "SEC-69",
+      "title": "Open redirects",
+      "primary_skill": "web-input-security",
+      "secondary_skills": [
+        "session-jwt-oauth"
+      ],
+      "detect": "Find redirects driven by next/returnTo/url parameters, including OAuth flows.",
+      "remediate": "Allowlist destinations or accept only relative paths; validate after parsing; avoid reflecting raw URLs.",
+      "verification": "Tests with absolute, protocol-relative, backslash and encoded URLs are rejected."
+    },
+    {
+      "id": "SEC-70",
+      "title": "Unsecured endpoints",
+      "primary_skill": "api-access-control",
+      "secondary_skills": [
+        "authentication-authorization"
+      ],
+      "detect": "Enumerate routes from code, OpenAPI, framework route dumps and logs; compare to documented intent; look for forgotten, legacy or test endpoints.",
+      "remediate": "Remove unused endpoints; apply default-deny authentication middleware; document intentionally public routes.",
+      "verification": "Route inventory diff test: every route is either explicitly public or requires auth; CI fails on new unclassified routes."
+    }
+  ],
+  "ux": [
+    {
+      "id": "UX-01",
+      "title": "Dark mode toggle",
+      "primary_skill": "website-interactions",
+      "secondary_skills": [
+        "accessibility-responsive"
+      ],
+      "detect": "Check if design system already has theming tokens; decide if the product needs a toggle at all.",
+      "remediate": "Respect prefers-color-scheme by default; offer an explicit toggle persisted in a non-sensitive preference; use CSS variables; avoid flash of wrong theme.",
+      "verification": "Contrast check in both themes; keyboard operable toggle with aria-pressed; no flash on reload; works with JS disabled via media query."
+    },
+    {
+      "id": "UX-02",
+      "title": "Cookie banner and preferences",
+      "primary_skill": "consent-and-privacy-ui",
+      "secondary_skills": [
+        "accessibility-responsive"
+      ],
+      "detect": "Inventory cookies/trackers and applicable regimes (e.g. GDPR/ePrivacy, UK PECR, CCPA/CPRA); banner only if non-essential tracking exists.",
+      "remediate": "Block non-essential scripts until consent; equal-prominence accept/reject; granular preferences; persistent re-open link; store consent record.",
+      "verification": "Network test: no analytics/ad requests before consent; reject path works; preferences reachable from footer. Legal sufficiency needs counsel."
+    },
+    {
+      "id": "UX-03",
+      "title": "Site search",
+      "primary_skill": "website-interactions",
+      "secondary_skills": [
+        "rate-limits-abuse",
+        "web-input-security"
+      ],
+      "detect": "Decide if content volume justifies search; pick static index (e.g. Pagefind-style) or backend search.",
+      "remediate": "Labelled search input, debounced queries, empty/error/loading states, escaped result rendering, rate-limited backend endpoint.",
+      "verification": "Keyboard test; XSS payload in query renders inert; empty and error states visible; no-results message."
+    },
+    {
+      "id": "UX-04",
+      "title": "Back-to-top button",
+      "primary_skill": "website-interactions",
+      "secondary_skills": [
+        "accessibility-responsive"
+      ],
+      "detect": "Only add for long pages; check it does not overlap sticky UI or floating contact action.",
+      "remediate": "Real button with accessible name; appears after scroll threshold; honour prefers-reduced-motion; move focus sensibly.",
+      "verification": "Keyboard/focus test; reduced-motion test; no overlap on mobile viewports."
+    },
+    {
+      "id": "UX-05",
+      "title": "Mobile navigation",
+      "primary_skill": "accessibility-responsive",
+      "secondary_skills": [
+        "website-interactions"
+      ],
+      "detect": "Check breakpoints and existing nav component.",
+      "remediate": "Button with aria-expanded/aria-controls; focus management and Escape to close; touch targets at least 24px (aim 44px); works without hover.",
+      "verification": "Test at 320px width and with keyboard and screen-reader smoke test; focus returns to trigger on close."
+    },
+    {
+      "id": "UX-06",
+      "title": "Loading animations and skeleton states",
+      "primary_skill": "website-interactions",
+      "secondary_skills": [
+        "performance"
+      ],
+      "detect": "Identify async views and their loading, empty, error and success states.",
+      "remediate": "Skeletons matching final layout to prevent layout shift; aria-busy/live region for status; timeouts with retry; respect reduced motion.",
+      "verification": "Throttled-network test; CLS measurement; error state visible when request fails."
+    },
+    {
+      "id": "UX-07",
+      "title": "Hover and focus states",
+      "primary_skill": "accessibility-responsive",
+      "secondary_skills": [
+        "website-interactions"
+      ],
+      "detect": "Check all interactive elements for visible focus and non-hover alternatives.",
+      "remediate": "Visible :focus-visible styles with sufficient contrast; hover never the only affordance; consistent states for disabled/active.",
+      "verification": "Tab through each page; automated axe-style check; focus indicator contrast verified."
+    },
+    {
+      "id": "UX-08",
+      "title": "Scroll progress bar",
+      "primary_skill": "website-interactions",
+      "secondary_skills": [
+        "performance"
+      ],
+      "detect": "Only for long-form content; confirm it adds value.",
+      "remediate": "Decorative element (aria-hidden) or progress role if informative; use passive scroll listeners or CSS scroll timelines with fallback; reduced motion.",
+      "verification": "No scroll jank in performance profile; hidden from assistive tech if decorative."
+    },
+    {
+      "id": "UX-09",
+      "title": "Copy-to-clipboard button",
+      "primary_skill": "website-interactions",
+      "secondary_skills": [
+        "accessibility-responsive"
+      ],
+      "detect": "Identify code blocks, codes, links worth copying.",
+      "remediate": "Native button with accessible name; navigator.clipboard with fallback and permission handling; announce success via live region; never auto-copy sensitive data.",
+      "verification": "Works on HTTPS; failure state shown; screen-reader announcement; no secret content copied unintentionally."
+    },
+    {
+      "id": "UX-10",
+      "title": "Print stylesheet",
+      "primary_skill": "website-interactions",
+      "secondary_skills": [],
+      "detect": "Check pages users plausibly print (articles, receipts, docs).",
+      "remediate": "@media print rules: hide nav/ads/interactive widgets, readable fonts, show link URLs where useful, avoid page breaks inside blocks.",
+      "verification": "Print preview/PDF render check for key page types."
+    },
+    {
+      "id": "UX-11",
+      "title": "Sticky headers",
+      "primary_skill": "accessibility-responsive",
+      "secondary_skills": [
+        "website-interactions"
+      ],
+      "detect": "Check header height versus viewport and anchor links.",
+      "remediate": "Use position: sticky with scroll-padding-top so anchors and focus are not hidden; keep compact on mobile; ensure focus not obscured (WCAG 2.2).",
+      "verification": "Keyboard focus never hidden under header; 400% zoom check; anchor jump check."
+    },
+    {
+      "id": "UX-12",
+      "title": "Skip-to-content link",
+      "primary_skill": "accessibility-responsive",
+      "secondary_skills": [],
+      "detect": "Check first focusable element on every layout.",
+      "remediate": "First focusable link targeting main landmark id; visible on focus; main has tabindex=-1 if needed.",
+      "verification": "Tab once from page load: link appears and moves focus to main content."
+    },
+    {
+      "id": "UX-13",
+      "title": "Password visibility toggle",
+      "primary_skill": "forms-validation",
+      "secondary_skills": [
+        "authentication-authorization"
+      ],
+      "detect": "Check auth forms and password-manager compatibility.",
+      "remediate": "Toggle button with accessible name and state; keep input type switching safe; correct autocomplete attributes; do not log or persist value.",
+      "verification": "Keyboard and screen-reader test; password manager still fills; value not exposed in DOM attributes or analytics."
+    },
+    {
+      "id": "UX-14",
+      "title": "UTM tracking",
+      "primary_skill": "consent-and-privacy-ui",
+      "secondary_skills": [
+        "seo-metadata",
+        "web-input-security"
+      ],
+      "detect": "Decide whether campaign tracking is needed and whether consent is required.",
+      "remediate": "Parse utm_* parameters only after consent where required; allowlist keys, length-limit and encode values; never store personal data in UTM values; strip from canonical URLs.",
+      "verification": "Test: payload in utm_source renders inert and is not stored raw; no tracking before consent."
+    },
+    {
+      "id": "UX-15",
+      "title": "Form success states",
+      "primary_skill": "forms-validation",
+      "secondary_skills": [
+        "accessibility-responsive"
+      ],
+      "detect": "Identify all submit paths and what the user needs to know afterwards.",
+      "remediate": "Clear confirmation message in a live region, preserved context, next step, prevention of duplicate submits, no sensitive echo.",
+      "verification": "Submit test confirms message announced to screen readers and double-click does not duplicate."
+    },
+    {
+      "id": "UX-16",
+      "title": "Form error states",
+      "primary_skill": "forms-validation",
+      "secondary_skills": [
+        "injection-prevention"
+      ],
+      "detect": "Review validation messaging and server error mapping.",
+      "remediate": "Inline errors associated via aria-describedby, error summary with focus, specific actionable text, server-side validation as authority, no sensitive details in messages.",
+      "verification": "Invalid, empty and server-error submissions tested; errors announced; focus moves to summary or first error."
+    },
+    {
+      "id": "UX-17",
+      "title": "Confirmation dialogs",
+      "primary_skill": "forms-validation",
+      "secondary_skills": [
+        "accessibility-responsive"
+      ],
+      "detect": "Identify destructive or irreversible actions.",
+      "remediate": "Use accessible modal (focus trap, Escape, restores focus, role=dialog/alertdialog) with explicit action labels; consider undo instead of confirm; server enforces authorization regardless.",
+      "verification": "Keyboard test; cancel is safe default; destructive action still requires server-side authorization."
+    },
+    {
+      "id": "UX-18",
+      "title": "Accurate last-updated date",
+      "primary_skill": "seo-metadata",
+      "secondary_skills": [
+        "website-interactions"
+      ],
+      "detect": "Find hard-coded or build-time dates and decide what 'updated' means.",
+      "remediate": "Derive from real content change (git commit, CMS timestamp), machine-readable <time datetime>, align with structured data dateModified; never auto-bump without change.",
+      "verification": "Change content and confirm date changes; unchanged content keeps date."
+    },
+    {
+      "id": "UX-19",
+      "title": "Expandable FAQ",
+      "primary_skill": "website-interactions",
+      "secondary_skills": [
+        "accessibility-responsive",
+        "seo-metadata"
+      ],
+      "detect": "Check content is genuinely Q&A; consider native details/summary.",
+      "remediate": "Prefer <details>/<summary> or button with aria-expanded/aria-controls; content crawlable; optional FAQ structured data only when it matches visible content.",
+      "verification": "Keyboard and screen-reader test; content visible to crawlers; structured-data validator passes."
+    },
+    {
+      "id": "UX-20",
+      "title": "Floating contact action",
+      "primary_skill": "website-interactions",
+      "secondary_skills": [
+        "consent-and-privacy-ui"
+      ],
+      "detect": "Check overlap with cookie banner, back-to-top and mobile browser UI.",
+      "remediate": "Real link/button with accessible name; does not cover content or consent UI; respects safe-area insets; consider whether needed.",
+      "verification": "Check at small viewports with banner open; keyboard reachable; does not block form fields."
+    }
+  ],
+  "production": [
+    {
+      "id": "PROD-01",
+      "title": "Privacy policy",
+      "primary_skill": "consent-and-privacy-ui",
+      "secondary_skills": [],
+      "detect": "Inventory personal data collected, processors, retention, transfers, rights and contact details from the actual code and vendors.",
+      "remediate": "Draft a policy matching real behaviour; flag fields needing business input; link from footer and forms. Template text is not legal compliance.",
+      "verification": "Compare policy against data inventory; request legal review. Never claim compliance."
+    },
+    {
+      "id": "PROD-02",
+      "title": "Terms and conditions",
+      "primary_skill": "consent-and-privacy-ui",
+      "secondary_skills": [],
+      "detect": "Identify services, payments, user content, liability and jurisdiction facts.",
+      "remediate": "Draft from actual product facts; mark gaps for owner and counsel; link at signup/checkout.",
+      "verification": "Owner and legal review recorded; links reachable."
+    },
+    {
+      "id": "PROD-03",
+      "title": "Remove frontend secrets",
+      "primary_skill": "secrets-detection",
+      "secondary_skills": [
+        "production-readiness"
+      ],
+      "detect": "Scan bundles and public env prefixes.",
+      "remediate": "Move privileged operations to the server; rotate leaked keys.",
+      "verification": "Production build scan clean; see SEC-14."
+    },
+    {
+      "id": "PROD-04",
+      "title": "Enforce HTTPS",
+      "primary_skill": "production-readiness",
+      "secondary_skills": [
+        "crypto-data-protection",
+        "web-input-security"
+      ],
+      "detect": "Check redirects from HTTP, mixed content, certificate validity and renewal.",
+      "remediate": "Redirect HTTP to HTTPS at the edge; enable HSTS after validation; fix mixed content; automate renewal.",
+      "verification": "curl -I http://… shows redirect; browser console shows no mixed content; certificate expiry monitored."
+    },
+    {
+      "id": "PROD-05",
+      "title": "Cookie consent where applicable",
+      "primary_skill": "consent-and-privacy-ui",
+      "secondary_skills": [],
+      "detect": "Determine if non-essential cookies/trackers exist and which regimes apply.",
+      "remediate": "Implement consent gating only where needed; see UX-02.",
+      "verification": "No non-essential requests before consent."
+    },
+    {
+      "id": "PROD-06",
+      "title": "Meta titles and descriptions",
+      "primary_skill": "seo-metadata",
+      "secondary_skills": [],
+      "detect": "Crawl pages for missing, duplicate, over- or under-length titles/descriptions.",
+      "remediate": "Unique title and description per page generated from real content.",
+      "verification": "Crawler script/lint finds no missing or duplicate values."
+    },
+    {
+      "id": "PROD-07",
+      "title": "Social preview image",
+      "primary_skill": "seo-metadata",
+      "secondary_skills": [],
+      "detect": "Check og:image/twitter:image presence, size and absolute URL.",
+      "remediate": "Provide properly sized image with alt text and absolute URL; per-page where valuable.",
+      "verification": "Inspect rendered meta tags; test with platform debuggers manually."
+    },
+    {
+      "id": "PROD-08",
+      "title": "Favicon",
+      "primary_skill": "seo-metadata",
+      "secondary_skills": [],
+      "detect": "Check favicon.ico, SVG/PNG and touch icon links.",
+      "remediate": "Provide multiple sizes and web manifest where needed.",
+      "verification": "Requests for icon URLs return 200 with correct type."
+    },
+    {
+      "id": "PROD-09",
+      "title": "Sitemap and robots.txt",
+      "primary_skill": "seo-metadata",
+      "secondary_skills": [
+        "cloud-config"
+      ],
+      "detect": "Check presence, accuracy, absolute URLs, and that private/non-prod areas are not exposed.",
+      "remediate": "Generate sitemap from routes; robots.txt references sitemap; remember robots.txt is not access control.",
+      "verification": "Fetch both files; validate URLs return 200; staging disallowed and authenticated."
+    },
+    {
+      "id": "PROD-10",
+      "title": "Image alt text",
+      "primary_skill": "accessibility-responsive",
+      "secondary_skills": [
+        "seo-metadata"
+      ],
+      "detect": "Find images without alt or with filename-like alt.",
+      "remediate": "Meaningful alt for informative images, empty alt for decorative, text alternatives for complex images.",
+      "verification": "Lint/axe finds no missing alt; manual spot check of quality."
+    },
+    {
+      "id": "PROD-11",
+      "title": "Image compression",
+      "primary_skill": "performance",
+      "secondary_skills": [],
+      "detect": "List large images and formats in build output.",
+      "remediate": "Modern formats (WebP/AVIF) with fallbacks, responsive srcset, lazy loading below fold, explicit width/height.",
+      "verification": "Build report sizes compared to budget; Lighthouse image audits."
+    },
+    {
+      "id": "PROD-12",
+      "title": "Page-load performance checks",
+      "primary_skill": "performance",
+      "secondary_skills": [],
+      "detect": "Measure Core Web Vitals (LCP, INP, CLS) and bundle size lab and field where available.",
+      "remediate": "Set budgets; reduce blocking scripts; code split; cache headers; fonts strategy.",
+      "verification": "Run Lighthouse or equivalent before/after and record numbers; lab results do not equal field results."
+    },
+    {
+      "id": "PROD-13",
+      "title": "Color contrast",
+      "primary_skill": "accessibility-responsive",
+      "secondary_skills": [],
+      "detect": "Check text and UI component contrast against WCAG 2.2 AA (4.5:1 text, 3:1 large text/UI).",
+      "remediate": "Adjust tokens; do not rely on colour alone.",
+      "verification": "Automated checker plus manual review of states and both themes."
+    },
+    {
+      "id": "PROD-14",
+      "title": "Mobile responsiveness",
+      "primary_skill": "accessibility-responsive",
+      "secondary_skills": [],
+      "detect": "Test viewports from 320px; check horizontal scroll, tap targets, zoom.",
+      "remediate": "Responsive layout with relative units; viewport meta; avoid disabling zoom.",
+      "verification": "Viewport sweep (320, 375, 768, 1280) with screenshots or automated checks."
+    },
+    {
+      "id": "PROD-15",
+      "title": "Custom 404 page",
+      "primary_skill": "production-readiness",
+      "secondary_skills": [
+        "cloud-config"
+      ],
+      "detect": "Request a non-existent URL and inspect status and body.",
+      "remediate": "Branded helpful 404 with navigation/search, real 404 status (not soft 404), no internal details.",
+      "verification": "curl -i shows 404; page has no stack trace; links work."
+    },
+    {
+      "id": "PROD-16",
+      "title": "Broken-link checks",
+      "primary_skill": "production-readiness",
+      "secondary_skills": [],
+      "detect": "Crawl internal links and critical external links.",
+      "remediate": "Fix or redirect broken links; add 301s for moved pages; run link checker in CI with a polite crawl rate.",
+      "verification": "Link-checker output shows zero broken internal links."
+    },
+    {
+      "id": "PROD-17",
+      "title": "Form validation",
+      "primary_skill": "forms-validation",
+      "secondary_skills": [
+        "injection-prevention"
+      ],
+      "detect": "Review client and server validation parity.",
+      "remediate": "Server-side validation authoritative; client-side for UX; accessible messages; see SEC-16.",
+      "verification": "Invalid inputs rejected on server regardless of client."
+    },
+    {
+      "id": "PROD-18",
+      "title": "Spam protection",
+      "primary_skill": "forms-validation",
+      "secondary_skills": [
+        "rate-limits-abuse"
+      ],
+      "detect": "Check public forms for abuse controls.",
+      "remediate": "Layered: rate limiting, honeypot, server verification of challenge tokens (privacy-aware CAPTCHA if justified), email verification where appropriate.",
+      "verification": "Automated submissions bounded; verification done server-side; legitimate users not blocked in test."
+    },
+    {
+      "id": "PROD-19",
+      "title": "Analytics configuration",
+      "primary_skill": "consent-and-privacy-ui",
+      "secondary_skills": [
+        "seo-metadata"
+      ],
+      "detect": "Inventory analytics tags, data collected, consent dependency, IP handling and retention.",
+      "remediate": "Configure minimal events, consent gating where required, anonymisation settings, no PII in event payloads.",
+      "verification": "Network inspection before/after consent; test property receives expected events only after consent."
+    },
+    {
+      "id": "PROD-20",
+      "title": "Clear primary call to action",
+      "primary_skill": "production-readiness",
+      "secondary_skills": [
+        "website-interactions"
+      ],
+      "detect": "Identify the page's single main goal and current CTA prominence.",
+      "remediate": "One visually primary, descriptive CTA above the fold; consistent across pages; accessible and trackable.",
+      "verification": "Stakeholder confirms goal; click path tested on mobile and desktop."
+    },
+    {
+      "id": "PROD-21",
+      "title": "Deployment checks",
+      "primary_skill": "production-readiness",
+      "secondary_skills": [
+        "cloud-config"
+      ],
+      "detect": "Review env config parity, migrations, health checks, feature flags and secrets injection.",
+      "remediate": "Pre-deploy checklist, health endpoint, staged rollout where feasible; human approval for production deploys.",
+      "verification": "Checklist completed with evidence; smoke tests post-deploy."
+    },
+    {
+      "id": "PROD-22",
+      "title": "Security headers",
+      "primary_skill": "web-input-security",
+      "secondary_skills": [
+        "production-readiness"
+      ],
+      "detect": "See SEC-46.",
+      "remediate": "See SEC-46.",
+      "verification": "See SEC-46."
+    },
+    {
+      "id": "PROD-23",
+      "title": "Safe error handling",
+      "primary_skill": "cloud-config",
+      "secondary_skills": [
+        "production-readiness"
+      ],
+      "detect": "See SEC-12; check user-facing error pages.",
+      "remediate": "Generic messages, correlation IDs, no internals.",
+      "verification": "Forced error tests."
+    },
+    {
+      "id": "PROD-24",
+      "title": "Dependency audits",
+      "primary_skill": "dependency-supply-chain",
+      "secondary_skills": [
+        "production-readiness"
+      ],
+      "detect": "See SEC-37.",
+      "remediate": "See SEC-37.",
+      "verification": "Audit output attached."
+    },
+    {
+      "id": "PROD-25",
+      "title": "Monitoring",
+      "primary_skill": "logging-monitoring-backups",
+      "secondary_skills": [
+        "production-readiness"
+      ],
+      "detect": "See SEC-43; add uptime, error-rate and latency checks.",
+      "remediate": "Uptime probe, error tracking, alert ownership.",
+      "verification": "Synthetic failure triggers alert."
+    },
+    {
+      "id": "PROD-26",
+      "title": "Backups and restore testing",
+      "primary_skill": "logging-monitoring-backups",
+      "secondary_skills": [
+        "production-readiness"
+      ],
+      "detect": "See SEC-44.",
+      "remediate": "Automated backups; scheduled restore drills.",
+      "verification": "Restore drill result recorded."
+    },
+    {
+      "id": "PROD-27",
+      "title": "Rollback planning",
+      "primary_skill": "production-readiness",
+      "secondary_skills": [],
+      "detect": "Check ability to revert code, config and schema changes.",
+      "remediate": "Document rollback steps, keep previous artifact, use backwards-compatible migrations, define decision owner.",
+      "verification": "Rollback rehearsed in staging; time to roll back measured."
+    }
+  ]
+}

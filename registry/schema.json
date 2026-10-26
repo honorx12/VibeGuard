@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/ai-web-quality-skills/registry-schema.json",
+  "title": "AI Web Quality Skills registry",
+  "type": "object",
+  "required": ["schema_version", "skills"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "generated_by": {"type": "string"},
+    "retrieved_at": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+    "skills": {"type": "array", "items": {"$ref": "#/$defs/entry"}}
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "description", "category", "source_url", "repository_url", "revision", "license",
+                   "compatibility", "last_reviewed", "review_status", "risk_notes", "related_skills"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._/-]{0,199}$"},
+        "name": {"type": "string", "minLength": 1, "maxLength": 200},
+        "description": {"type": "string", "maxLength": 1024},
+        "category": {"type": "string", "enum": ["security", "frontend", "production", "engineering", "external-unclassified"]},
+        "source_url": {"type": "string", "minLength": 1},
+        "repository_url": {"type": ["string", "null"]},
+        "revision": {"type": "string", "minLength": 1},
+        "license": {"type": "string", "minLength": 1, "description": "SPDX identifier or 'UNKNOWN'"},
+        "compatibility": {"type": "array", "items": {"type": "string"}},
+        "last_reviewed": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+        "review_status": {"type": "string", "enum": ["first-party", "pending-human-review", "approved", "rejected", "link-only"]},
+        "risk_notes": {"type": "string"},
+        "related_skills": {"type": "array", "items": {"type": "string"}},
+        "author": {"type": ["string", "null"]},
+        "retrieved_at": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+        "redistribution": {"type": "string", "enum": ["own-content", "permitted-by-license", "link-only"]},
+        "flags": {"type": "array", "items": {"type": "string"}}
+      },
+      "allOf": [
+        {"if": {"properties": {"review_status": {"const": "approved"}}},
+         "then": {"properties": {"last_reviewed": {"type": "string"}}}}
+      ]
+    }
+  }
+}
